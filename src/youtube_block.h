@@ -10,7 +10,6 @@ struct youtubeClient
 {
     int clientID;
     time_t lastRequestTime;
-    int level;
     char *lastApprovedDomain;
     struct youtubeClient *nextClient;
 };
