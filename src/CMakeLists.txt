@@ -81,8 +81,8 @@ if(CMAKE_C_COMPILER_VERSION VERSION_EQUAL 8 OR CMAKE_C_COMPILER_VERSION VERSION_
 else()
     set(EXTRAWARN_GCC8 "")
 endif()
-set(EXTRAWARN "-Werror -Waddress -Wlogical-op -Wmissing-field-initializers -Woverlength-strings -Wformat -Wformat-nonliteral -Wuninitialized -Wswitch-enum -Wshadow -Wfloat-equal -Wbad-function-cast -Wwrite-strings -Wparentheses -Wlogical-op -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Winline ${EXTRAWARN_GCC8}")
-separate_arguments(EXTRAWARN)
+#set(EXTRAWARN "-Werror -Waddress -Wlogical-op -Wmissing-field-initializers -Woverlength-strings -Wformat -Wformat-nonliteral -Wuninitialized -Wswitch-enum -Wshadow -Wfloat-equal -Wbad-function-cast -Wwrite-strings -Wparentheses -Wlogical-op -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Winline ${EXTRAWARN_GCC8}")
+#separate_arguments(EXTRAWARN)
 
 # Do we want to compile a statically linked musl executable?
 if(STATIC STREQUAL "true")
@@ -149,6 +149,8 @@ set(sources
         timers.h
         vector.c
         vector.h
+        youtube_block.c
+        youtube_block.h
         version.h
         )
 

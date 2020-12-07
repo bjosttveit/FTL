@@ -42,6 +42,7 @@
 #include <stdatomic.h>
 // Eventqueue routines
 #include "events.h"
+#include "youtube_block.h"
 
 static void print_flags(const unsigned int flags);
 static void save_reply_type(const unsigned int flags, const union all_addr *addr,
@@ -286,8 +287,15 @@ static bool _FTL_check_blocking(int queryID, int domainID, int clientID, const c
 	bool blockDomain = false;
 	unsigned char new_status = QUERY_UNKNOWN;
 
+	// Check if it is a youtube ad
+	bool isYTDomain = isYoutubeDomain(domainstr);
+	if(!query->whitelisted && isYTDomain)
+	{
+		blockDomain = check_youtube_ad(domainstr, clientID, query, dns_cache, blockingreason, &new_status);
+	}
+
 	// Check blacklist (exact + regex) and gravity for queried domain
-	if(!query->whitelisted)
+	if(!query->whitelisted && !blockDomain)
 	{
 		blockDomain = check_domain_blocked(domainstr, clientID, client, query, dns_cache, blockingreason, &new_status);
 	}
@@ -323,7 +331,12 @@ static bool _FTL_check_blocking(int queryID, int domainID, int clientID, const c
 		// gravity/blacklist chain when the same client asks
 		// for the same domain in the future. Explicitly store
 		// domain as whitelisted if this is the case
-		dns_cache->blocking_status = query->whitelisted ? WHITELISTED : NOT_BLOCKED;
+		
+		//We need to disable caching for yt domains, since they constantly change 
+		if (!isYTDomain) {
+			dns_cache->blocking_status = query->whitelisted ? WHITELISTED : NOT_BLOCKED;
+		}
+		
 	}
 
 	free(domainstr);

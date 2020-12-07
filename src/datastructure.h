@@ -12,7 +12,6 @@
 
 // Definition of sqlite3_stmt
 #include "database/sqlite3.h"
-
 // enum privacy_level
 #include "enums.h"
 
