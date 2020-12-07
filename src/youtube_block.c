@@ -33,6 +33,8 @@ static youtubeClient *initClient(const char *domain, const int clientID, queries
 
     currentClient->lastRequestTime = query->timestamp;
 
+    currentClient->level = 0;
+
     currentClient->nextClient = 0;
 
     return currentClient;
@@ -83,7 +85,7 @@ bool check_youtube_ad(const char *domain, const int clientID, queriesData *query
             //This is a new request from an existing client
             bool block = false;
 
-            if ((double)(query->timestamp - currentClient->lastRequestTime) <= 10.0)
+            if ((double)(query->timestamp - currentClient->lastRequestTime) <= 2.0 + currentClient->level*8.0)
             {
                 block = strcmp(currentClient->lastApprovedDomain, domain) != 0;
             }
@@ -92,11 +94,13 @@ bool check_youtube_ad(const char *domain, const int clientID, queriesData *query
                 char *approvedDomain = malloc(strlen(domain) * sizeof(char));
                 strcpy(approvedDomain, domain);
                 currentClient->lastApprovedDomain = approvedDomain;
+                currentClient->level = 0;
             }
 
             currentClient->lastRequestTime = query->timestamp;
             if (block)
             {
+                currentClient->level = 1;
                 *new_status = QUERY_BLACKLIST;
                 *blockingreason = "youtube video ad";
                 return true;
