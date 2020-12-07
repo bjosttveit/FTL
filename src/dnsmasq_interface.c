@@ -347,7 +347,7 @@ static bool _FTL_check_blocking(int queryID, int domainID, int clientID, const c
 bool _FTL_CNAME(const char *domain, const struct crec *cpp, const int id, const char* file, const int line)
 {
 	// Does the user want to skip deep CNAME inspection?
-	if(!config.cname_inspection)
+	if(!config.cname_inspection || isYoutubeDomain(domain))
 	{
 		return false;
 	}
