@@ -83,7 +83,7 @@ bool check_youtube_ad(const char *domain, const int clientID, queriesData *query
             //This is a new request from an existing client
             bool block = false;
 
-            if ((double)(query->timestamp - currentClient->lastRequestTime) < 1.0)
+            if ((double)(query->timestamp - currentClient->lastRequestTime) <= 2.0)
             {
                 block = strcmp(currentClient->lastApprovedDomain, domain) != 0;
             }
