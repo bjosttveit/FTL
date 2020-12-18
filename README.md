@@ -1,3 +1,5 @@
+Attempts to block youtube video ads. Only works for video ads before video starts, not midrolls. Only blocks the first video ad in case of two ads before the video. Does not work 100% even then. Mainly intended for use with chromecast, as there are no other options like ublock. Works by keeping track of the timing between youtube content domain requests; if a youtube content domain is requested very shortly after another from the same device, it is assumed to be an ad and gets blocked. Almost no false positives, but limited effectiveness. Wanted to see if this approach could work and it turned out not as good as I had hoped.
+
 <p align="center">
 <a href="https://pi-hole.net"><img src="https://pi-hole.github.io/graphics/Vortex/Vortex_with_text.png" width="150" height="255" alt="Pi-hole"></a>
 <br/><br/>

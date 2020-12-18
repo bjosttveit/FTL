@@ -43,11 +43,6 @@ bool check_youtube_ad(const char *domain, const int clientID, queriesData *query
                       const char **blockingreason, unsigned char *new_status)
 {
 
-    /*FILE *fp;
-    fp = fopen("/home/bjosttveit/FTL/yt.log", "w+");
-    fprintf(fp, "%d", clientID);
-    fclose(fp);*/
-
     dns_cache->blocking_status = UNKNOWN_BLOCKED;
 
     static youtubeClient *yClients = 0;
@@ -92,6 +87,7 @@ bool check_youtube_ad(const char *domain, const int clientID, queriesData *query
             {
                 char *approvedDomain = malloc(strlen(domain) * sizeof(char));
                 strcpy(approvedDomain, domain);
+                free(currentClient->lastApprovedDomain);
                 currentClient->lastApprovedDomain = approvedDomain;
             }
 
